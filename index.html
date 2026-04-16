@@ -163,7 +163,7 @@
 
 <div id="login-view" class="card" style="margin-top: 50px;">
     <div style="text-align: center; margin-bottom: 15px;">
-        <span style="font-size: 65px; text-shadow: 0 4px 15px rgba(211,47,47,0.2);">🍩</span>
+        <img src="logo.png" alt="Buñuelos con amor" style="max-height: 120px; width: auto; object-fit: contain;">
     </div>
     <h1 style="margin-bottom: 10px;">Buñuelos con amor ❤️</h1>
     
@@ -181,7 +181,7 @@
 <div id="order-view" style="display: none;">
     <div class="card" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px;">
         <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 28px;">🍩</span>
+            <img src="logo.png" alt="Logo" style="height: 30px; width: auto; border-radius: 5px;">
             <span>👤 <strong id="user-name"></strong></span>
         </div>
         <button onclick="location.reload()" style="width: auto; padding: 8px 15px; font-size: 14px; background: var(--text-muted); box-shadow: none;">Salir</button>
@@ -206,7 +206,10 @@
 
 <div id="admin-view" style="display: none;">
     <div class="card" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px;">
-        <span>⚙️ <strong>Administrador</strong></span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="logo.png" alt="Logo" style="height: 30px; width: auto; border-radius: 5px;">
+            <span>⚙️ <strong>Administrador</strong></span>
+        </div>
         <button onclick="location.reload()" style="width: auto; padding: 8px 15px; font-size: 14px; background: var(--text-muted); box-shadow: none;">Salir</button>
     </div>
 
@@ -432,6 +435,25 @@
         </div>
     </div>
 </div>
+
+<!-- Footer Global -->
+<div style="text-align: center; font-size: 13px; color: var(--text-muted); padding: 20px 10px; margin-top: 10px;">
+    Esta es una aplicación propiedad de <strong>Buñuelos con amor</strong>.<br>Cualquier uso indebido comunicarlo al <strong>3002436120</strong>.
+</div>
+
+<!-- Seguridad: Prevenir inspeccionar código -->
+<script>
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+    document.onkeydown = function(e) {
+        if(e.keyCode === 123) { return false; } // F12
+        if(e.ctrlKey && e.shiftKey && e.keyCode === 73) { return false; } // Ctrl+Shift+I (I is 73)
+        if(e.ctrlKey && e.shiftKey && e.keyCode === 67) { return false; } // Ctrl+Shift+C (C is 67)
+        if(e.ctrlKey && e.shiftKey && e.keyCode === 74) { return false; } // Ctrl+Shift+J (J is 74)
+        if(e.ctrlKey && e.keyCode === 85) { return false; } // Ctrl+U (U is 85)
+    };
+</script>
 
 </body>
 </html>
