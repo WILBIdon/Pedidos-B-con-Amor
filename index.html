@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Buñuelos con amor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { 
             --brand-red: #d32f2f; 
@@ -17,8 +18,9 @@
             --border-light: #e9ecef;
         }
         body { 
-            font-family: 'Segoe UI', system-ui, sans-serif; 
-            background: var(--bg-white); 
+            font-family: 'Outfit', 'Segoe UI', system-ui, sans-serif; 
+            background-color: var(--bg-white); 
+            background-image: repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(25, 118, 210, 0.03) 40px, rgba(25, 118, 210, 0.03) 80px);
             margin: 0; 
             padding: 15px; 
             color: var(--text-main); 
@@ -160,7 +162,17 @@
 <body>
 
 <div id="login-view" class="card" style="margin-top: 50px;">
-    <h1 style="margin-bottom: 20px;">Buñuelos con amor ❤️</h1>
+    <div style="text-align: center; margin-bottom: 15px;">
+        <span style="font-size: 65px; text-shadow: 0 4px 15px rgba(211,47,47,0.2);">🍩</span>
+    </div>
+    <h1 style="margin-bottom: 10px;">Buñuelos con amor ❤️</h1>
+    
+    <p style="text-align: center; color: var(--brand-blue); font-weight: 600; margin-bottom: 10px; font-size: 1.1rem;">¡Ingresa tu contraseña, señor mesero!</p>
+    
+    <div style="background: var(--brand-red-light); color: var(--brand-red); padding: 12px; border-radius: 10px; text-align: center; font-size: 15px; margin-bottom: 20px; border: 1px dashed rgba(211,47,47,0.3);">
+        📢 <strong>Recuerda:</strong> La promoción del mes son <strong>¡Los Chorizos!</strong>
+    </div>
+
     <input type="text" id="user-name-input" placeholder="Usuario">
     <input type="password" id="user-pass" placeholder="Contraseña">
     <button onclick="login()">Ingresar al Sistema</button>
@@ -168,15 +180,26 @@
 
 <div id="order-view" style="display: none;">
     <div class="card" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px;">
-        <span>👤 <strong id="user-name"></strong></span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 28px;">🍩</span>
+            <span>👤 <strong id="user-name"></strong></span>
+        </div>
         <button onclick="location.reload()" style="width: auto; padding: 8px 15px; font-size: 14px; background: var(--text-muted); box-shadow: none;">Salir</button>
     </div>
+    
+    <div style="background: #e3f2fd; color: var(--brand-blue); padding: 12px; border-radius: 10px; text-align: center; font-size: 14px; font-weight: 600; margin-bottom: 15px; border: 1px solid #bbdefb;">
+        👇 Por favor, escoge primero la mesa
+    </div>
     <select id="select-mesa"><option value="">Selecciona la Mesa...</option></select>
+    
     <div id="menu-container" class="card"><p style="text-align: center;">Cargando menú...</p></div>
     <div id="footer">
         <div style="display: flex; justify-content: space-between; font-size: 18px; margin-bottom: 10px;">
             <strong>Total:</strong><strong id="total-val">$0</strong>
         </div>
+        <p style="text-align: center; font-size: 13px; color: var(--brand-orange); margin: 0 0 12px 0; font-weight: 600; background: #fff3e0; padding: 8px; border-radius: 8px; border: 1px dashed #ffb74d;">
+            ⚠️ Por favor confirmar el pedido antes de enviar la comanda.
+        </p>
         <button id="btn-pre-enviar" onclick="mostrarPreview()" disabled>Enviar Pedido a Cocina</button>
     </div>
 </div>
