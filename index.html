@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Buñuelos con amor</title>
+    <style>
+        :root { 
+            --brand-red: #d32f2f; 
+            --brand-red-light: #ffebee;
+            --brand-orange: #f57c00; 
+            --brand-blue: #1976d2; 
+            --bg-white: #fdfdfd; 
+            --card-white: #ffffff;
+            --text-main: #212529; 
+            --text-muted: #6c757d;
+            --border-light: #e9ecef;
+        }
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: var(--bg-white); 
+            margin: 0; 
+            padding: 15px; 
+            color: var(--text-main); 
+        }
+        .card { 
+            background: var(--card-white); 
+            border-radius: 16px; 
+            padding: 20px; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); 
+            margin-bottom: 20px; 
+            border: 1px solid var(--border-light);
+        }
+        h1, h2, h3 { 
+            color: var(--brand-red); 
+            text-align: center; 
+            margin-top: 0; 
+        }
+        h3 { 
+            color: var(--brand-blue); 
+            text-align: left; 
+            font-size: 1.1rem;
+        }
+        input, select { 
+            width: 100%; 
+            padding: 14px; 
+            margin: 10px 0; 
+            border: 2px solid var(--border-light); 
+            border-radius: 10px; 
+            font-size: 16px; 
+            box-sizing: border-box; 
+            transition: border-color 0.3s;
+            background: var(--bg-white);
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--brand-blue);
+        }
+        button { 
+            width: 100%; 
+            padding: 16px; 
+            background: var(--brand-red); 
+            color: white; 
+            border: none; 
+            border-radius: 10px; 
+            font-weight: bold; 
+            font-size: 16px; 
+            cursor: pointer; 
+            transition: transform 0.1s, background 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2);
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        button:disabled { 
+            background: #e2e8f0; 
+            color: #94a3b8;
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .item { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 15px 0; 
+            border-bottom: 1px solid var(--border-light); 
+            gap: 12px;
+        }
+        .item-img { 
+            width: 60px; 
+            height: 60px; 
+            border-radius: 12px; 
+            object-fit: cover; 
+            background: var(--brand-red-light); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 26px;
+            color: var(--brand-red);
+            box-shadow: 0 2px 8px rgba(211, 47, 47, 0.1);
+        }
+        .item-info { 
+            flex-grow: 1; 
+        }
+        .item-info strong {
+            color: var(--text-main);
+            font-size: 1.05rem;
+        }
+        .item-info small {
+            color: var(--brand-orange);
+            font-weight: 600;
+        }
+        .controls { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+        }
+        .btn-qty { 
+            width: 36px; 
+            height: 36px; 
+            border-radius: 10px; 
+            background: var(--bg-white); 
+            color: var(--brand-blue); 
+            border: 2px solid var(--border-light); 
+            font-size: 20px; 
+            font-weight: bold; 
+            padding: 0; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none;
+        }
+        .qty { 
+            font-weight: bold; 
+            min-width: 24px; 
+            text-align: center; 
+            color: var(--text-main);
+            font-size: 1.1rem;
+        }
+        #footer { 
+            position: sticky; 
+            bottom: 15px; 
+            background: var(--card-white); 
+            border-top: 4px solid var(--brand-red); 
+            padding: 15px; 
+            border-radius: 16px; 
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.06); 
+            border: 1px solid var(--border-light);
+        }
+        .admin-section { 
+            border: 2px dashed var(--border-light); 
+            padding: 15px; 
+            border-radius: 12px; 
+            margin-bottom: 15px; 
+            background: var(--bg-white);
+        }
+    </style>
+</head>
+<body>
+
+<div id="login-view" class="card" style="margin-top: 50px;">
+    <h1 style="margin-bottom: 20px;">Buñuelos con amor ❤️</h1>
+    <input type="text" id="user-name-input" placeholder="Usuario">
+    <input type="password" id="user-pass" placeholder="Contraseña">
+    <button onclick="login()">Ingresar al Sistema</button>
+</div>
+
+<div id="order-view" style="display: none;">
+    <div class="card" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px;">
+        <span>👤 <strong id="user-name"></strong></span>
+        <button onclick="location.reload()" style="width: auto; padding: 8px 15px; font-size: 14px; background: var(--text-muted); box-shadow: none;">Salir</button>
+    </div>
+    <select id="select-mesa"><option value="">Selecciona la Mesa...</option></select>
+    <div id="menu-container" class="card"><p style="text-align: center;">Cargando menú...</p></div>
+    <div id="footer">
+        <div style="display: flex; justify-content: space-between; font-size: 18px; margin-bottom: 10px;">
+            <strong>Total:</strong><strong id="total-val">$0</strong>
+        </div>
+        <button id="btn-pre-enviar" onclick="mostrarPreview()" disabled>Enviar Pedido a Cocina</button>
+    </div>
+</div>
+
+<div id="admin-view" style="display: none;">
+    <div class="card" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px;">
+        <span>⚙️ <strong>Administrador</strong></span>
+        <button onclick="location.reload()" style="width: auto; padding: 8px 15px; font-size: 14px; background: var(--text-muted); box-shadow: none;">Salir</button>
+    </div>
+
+    <div class="card">
+        <div class="admin-section" style="border-color: var(--brand-orange);">
+            <h3>🔐 Cambiar mi contraseña</h3>
+            <div id="step-1-pin">
+                <button onclick="solicitarPin()" style="background: var(--brand-orange); color: #fff;">Enviar Código a mi Correo</button>
+            </div>
+            <div id="step-2-pin" style="display:none; margin-top:10px;">
+                <p style="font-size:13px; color:#666; margin:0 0 10px 0;">Revisa la bandeja de entrada (o Spam) de tu correo Gmail.</p>
+                <input type="text" id="adm-pin" placeholder="Código de 4 dígitos">
+                <input type="password" id="adm-new-pass" placeholder="Crear Nueva Contraseña">
+                <button onclick="cambiarPassAdmin()" style="background: var(--brand-red);">Guardar Contraseña</button>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h3>👥 Gestionar Meseros</h3>
+            <input type="text" id="adm-mesero-nombre" placeholder="Nombre del Mesero">
+            <input type="text" id="adm-mesero-pass" placeholder="Contraseña">
+            <button onclick="guardarMesero()" style="background: var(--brand-blue);">Guardar Mesero</button>
+        </div>
+
+        <div class="admin-section">
+            <h3>🍩 Agregar al Menú</h3>
+            <input type="text" id="adm-prod-nombre" placeholder="Nombre del Producto">
+            <input type="number" id="adm-prod-precio" placeholder="Precio (Ej: 3000)">
+            <input type="text" id="adm-prod-cat" placeholder="Categoría (Ej: Bebidas)">
+            <button onclick="guardarProducto()" style="background: var(--brand-red);">Agregar Producto</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ✅ URL ACTUALIZADA FINAL
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyWxtoRuVArpZe-apwgt_UtSCKkwytBMV5tLl1dKDtVRT-qQeKUYFrRZE82FicQxh3s/exec';
+    
+    let cart = {}; let activeUser = "";
+
+    async function login() {
+        const nombre = document.getElementById('user-name-input').value.trim();
+        const pass = document.getElementById('user-pass').value;
+        const btn = document.querySelector('#login-view button');
+        
+        if(!nombre || !pass) return alert("Ingresa tus datos");
+        btn.innerText = "Verificando...";
+
+        try {
+            const res = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({accion: 'login', nombre, pass}) });
+            const data = await res.json();
+            
+            if (data.success && data.rol === 'admin') {
+                document.getElementById('login-view').style.display = 'none';
+                document.getElementById('admin-view').style.display = 'block';
+            } else if (data.success && data.rol === 'mesero') {
+                activeUser = data.nombre;
+                document.getElementById('user-name').innerText = activeUser;
+                document.getElementById('login-view').style.display = 'none';
+                document.getElementById('order-view').style.display = 'block';
+                loadData();
+            } else {
+                alert("Credenciales incorrectas.");
+                btn.innerText = "Ingresar al Sistema";
+            }
+        } catch (e) { alert("Error de red."); btn.innerText = "Ingresar al Sistema"; }
+    }
+
+    async function loadData() {
+        const res = await fetch(WEB_APP_URL);
+        const data = await res.json();
+        
+        const mesaSelect = document.getElementById('select-mesa');
+        data.mesas.forEach(m => mesaSelect.innerHTML += `<option value="${m.nombre_mesa}">${m.nombre_mesa}</option>`);
+        mesaSelect.onchange = checkButton;
+
+        const menuDiv = document.getElementById('menu-container');
+        menuDiv.innerHTML = "";
+        data.productos.forEach(p => {
+            cart[p.id] = { nombre: p.nombre, precio: p.precio, qty: 0 };
+            let imgHTML = p.imagen ? `<img src="${p.imagen}" class="item-img">` : `<div class="item-img">🍩</div>`;
+            
+            menuDiv.innerHTML += `
+                <div class="item">
+                    ${imgHTML}
+                    <div class="item-info">
+                        <strong style="font-size: 15px;">${p.nombre}</strong><br>
+                        <small style="color: var(--brand-orange);">$${p.precio.toLocaleString('es-CO')}</small>
+                    </div>
+                    <div class="controls">
+                        <button class="btn-qty" onclick="updateQty('${p.id}', -1)">-</button>
+                        <span class="qty" id="qty-${p.id}">0</span>
+                        <button class="btn-qty" onclick="updateQty('${p.id}', 1)">+</button>
+                    </div>
+                </div>`;
+        });
+    }
+
+    function updateQty(id, change) {
+        cart[id].qty = Math.max(0, cart[id].qty + change);
+        document.getElementById(`qty-${id}`).innerText = cart[id].qty;
+        let total = 0; for (let k in cart) total += cart[k].qty * cart[k].precio;
+        document.getElementById('total-val').innerText = `$${total.toLocaleString('es-CO')}`;
+        checkButton();
+    }
+
+    function checkButton() {
+        const mesa = document.getElementById('select-mesa').value;
+        const total = parseInt(document.getElementById('total-val').innerText.replace(/\D/g,''));
+        document.getElementById('btn-pre-enviar').disabled = !(mesa && total > 0);
+    }
+
+    function mostrarPreview() {
+        const mesa = document.getElementById('select-mesa').value;
+        if(!mesa) return alert("Selecciona una mesa");
+        
+        let detalle = "";
+        for (let k in cart) {
+            if(cart[k].qty > 0) {
+                detalle += `<div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                               <span>${cart[k].qty}x ${cart[k].nombre}</span>
+                               <span>$${(cart[k].qty * cart[k].precio).toLocaleString('es-CO')}</span>
+                            </div>`;
+            }
+        }
+        
+        document.getElementById('prev-mesa').innerText = mesa;
+        document.getElementById('prev-mesero').innerText = activeUser;
+        document.getElementById('prev-detalle').innerHTML = detalle;
+        document.getElementById('prev-total').innerText = document.getElementById('total-val').innerText;
+        
+        document.getElementById('modal-preview').style.display = 'flex';
+    }
+
+    function cerrarPreview() {
+        document.getElementById('modal-preview').style.display = 'none';
+        const btn = document.getElementById('btn-confirm-enviar');
+        if(btn) { btn.innerText = "Confirmar y Enviar"; btn.disabled = false; }
+    }
+
+    async function enviarPedido() {
+        const btn = document.getElementById('btn-confirm-enviar');
+        
+        btn.innerText = "Enviando..."; btn.disabled = true;
+        const orderData = {
+            accion: 'pedido', mesero: activeUser, mesa: document.getElementById('select-mesa').value,
+            carrito: Object.values(cart).filter(i => i.qty > 0).map(i => ({nombre: i.nombre, cantidad: i.qty, precio: i.precio})),
+            total: parseInt(document.getElementById('total-val').innerText.replace(/\D/g,''))
+        };
+
+        try {
+            const res = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify(orderData) });
+            const data = await res.json();
+            if(data.success) { alert("✅ Pedido enviado!"); location.reload(); }
+            else { alert("Error al enviar el pedido"); cerrarPreview(); }
+        } catch(e) {
+            alert("Error de red."); cerrarPreview();
+        }
+    }
+
+    // --- FUNCIONES ADMINISTRADOR ---
+    async function solicitarPin() {
+        const btn = document.querySelector('#step-1-pin button');
+        btn.innerText = "Enviando..."; btn.disabled = true;
+        await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ accion: 'solicitar_pin' }) });
+        document.getElementById('step-1-pin').style.display = 'none';
+        document.getElementById('step-2-pin').style.display = 'block';
+    }
+
+    async function cambiarPassAdmin() {
+        const pin = document.getElementById('adm-pin').value;
+        const nuevoPass = document.getElementById('adm-new-pass').value;
+        if(!pin || !nuevoPass) return alert("Ingresa el código y la nueva contraseña");
+
+        const res = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ accion: 'cambiar_pass_admin', pin: pin, nuevo_pass: nuevoPass }) });
+        const data = await res.json();
+        
+        if(data.success) {
+            alert("Contraseña de Administrador actualizada correctamente.");
+            location.reload(); // Saca al usuario para que vuelva a iniciar sesión
+        } else {
+            alert(data.message); // Muestra error si el PIN expiró o es falso
+        }
+    }
+
+    async function guardarMesero() {
+        const nombre = document.getElementById('adm-mesero-nombre').value;
+        const pass = document.getElementById('adm-mesero-pass').value;
+        if(!nombre || !pass) return alert("Completa nombre y contraseña");
+        
+        await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ accion: 'guardar_mesero', nombre_mesero: nombre, nuevo_pass: pass }) });
+        alert("Mesero actualizado en la base de datos.");
+        document.getElementById('adm-mesero-nombre').value = ""; document.getElementById('adm-mesero-pass').value = "";
+    }
+
+    async function guardarProducto() {
+        const nombre = document.getElementById('adm-prod-nombre').value;
+        const precio = document.getElementById('adm-prod-precio').value;
+        const cat = document.getElementById('adm-prod-cat').value;
+        if(!nombre || !precio) return alert("Nombre y precio son obligatorios");
+
+        await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ accion: 'guardar_producto', prod_nombre: nombre, prod_precio: precio, prod_cat: cat, prod_img: "" }) });
+        alert("Producto agregado al menú.");
+        document.getElementById('adm-prod-nombre').value = ""; document.getElementById('adm-prod-precio').value = "";
+    }
+</script>
+
+<!-- Modal Preview Comanda -->
+<div id="modal-preview" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;">
+    <div class="card" style="width: 100%; max-width: 400px; padding: 25px;">
+        <h2 style="text-align: center; margin-bottom: 20px; color: var(--text);">🧾 Previsualizar Comanda</h2>
+        <div style="border-bottom: 2px dashed #cbd5e1; padding-bottom: 15px; margin-bottom: 15px; font-size: 16px;">
+            <p style="margin: 5px 0;"><strong>Mesa:</strong> <span id="prev-mesa"></span></p>
+            <p style="margin: 5px 0;"><strong>Mesero:</strong> <span id="prev-mesero"></span></p>
+        </div>
+        <div id="prev-detalle" style="margin-bottom: 15px; font-size: 15px; color: #64748b;"></div>
+        <div style="border-top: 2px dashed #cbd5e1; padding-top: 15px; margin-bottom: 25px; text-align: right; font-size: 18px;">
+            <strong>Total: <span id="prev-total"></span></strong>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <button onclick="cerrarPreview()" style="background: var(--border-light); color: var(--text-main); flex: 1; box-shadow: none;">Cancelar</button>
+            <button id="btn-confirm-enviar" onclick="enviarPedido()" style="flex: 2; background: var(--brand-blue);">Confirmar y Enviar</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
